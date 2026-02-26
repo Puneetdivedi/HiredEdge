@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { RadarChart, PolarGrid, PolarAngleAxis, Radar, ResponsiveContainer } from 'recharts'
 import ScoreRing from '../components/ScoreRing'
 import toast from 'react-hot-toast'
-import { saveAnalysis } from '../utils/api'
+import { saveAnalysis, generateResume } from '../utils/api'
 
 function ImportanceBadge({ level }) {
   const map = {
@@ -32,6 +32,8 @@ function SectionHeader({ icon, title, count }) {
 export default function ResultsPage() {
   const [result, setResult] = useState(null)
   const [saved, setSaved] = useState(false)
+  const [generatingResume, setGeneratingResume] = useState(false)
+  const [generatedResume, setGeneratedResume] = useState('')
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -47,9 +49,9 @@ export default function ResultsPage() {
 
   const radarData = result.score_breakdown
     ? Object.entries(result.score_breakdown).map(([key, val]) => ({
-        subject: key.charAt(0).toUpperCase() + key.slice(1),
-        score: val,
-      }))
+      subject: key.charAt(0).toUpperCase() + key.slice(1),
+      score: val,
+    }))
     : []
 
   const handleSave = async () => {
@@ -64,6 +66,22 @@ export default function ResultsPage() {
       toast.success('Analysis saved to history!')
     } catch {
       toast.error('Failed to save. Is Supabase configured?')
+    }
+  }
+
+  const handleGenerateResume = async () => {
+    try {
+      setGeneratingResume(true)
+      const toastId = toast.loading('Generating ATS-friendly resume...')
+      const response = await generateResume(result.resume_text, result.jdText)
+      setGeneratedResume(response.generated_resume)
+      toast.dismiss(toastId)
+      toast.success('Resume generated!')
+    } catch (err) {
+      toast.error('Failed to generate resume.')
+      console.error(err)
+    } finally {
+      setGeneratingResume(false)
     }
   }
 
@@ -269,6 +287,44 @@ export default function ResultsPage() {
         </motion.div>
       )}
 
+      {/* Resume Generator */}
+      <motion.div
+        className="section-card mb-6"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.38 }}
+      >
+        <SectionHeader icon="📄" title="ATS-Friendly Resume Generator" />
+        <p className="text-gray-400 text-sm mb-4">
+          Generate a 1-page ATS-optimized resume tailored to this exact job description, using your actual experience.
+        </p>
+
+        {!generatedResume ? (
+          <button
+            onClick={handleGenerateResume}
+            disabled={generatingResume}
+            className="btn-primary py-3 px-6 text-sm flex items-center gap-2"
+          >
+            {generatingResume ? 'Generating...' : '✨ Generate Resume'}
+          </button>
+        ) : (
+          <div className="space-y-4">
+            <div className="bg-dark-700/60 border border-white/10 rounded-xl p-6 font-mono text-sm text-gray-300 whitespace-pre-wrap leading-relaxed h-96 overflow-y-auto w-full max-w-full break-normal overflow-x-auto">
+              {generatedResume}
+            </div>
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText(generatedResume)
+                toast.success('Resume copied to clipboard!')
+              }}
+              className="btn-secondary py-2 px-4 text-sm"
+            >
+              📋 Copy Markdown
+            </button>
+          </div>
+        )}
+      </motion.div>
+
       {/* Learning roadmap */}
       {result.learning_roadmap?.length > 0 && (
         <motion.div
@@ -318,7 +374,7 @@ export default function ResultsPage() {
                 <span className={`text-xs font-mono px-2 py-0.5 rounded mt-0.5 flex-shrink-0
                   ${gap.severity === 'high' ? 'bg-danger/10 text-danger' :
                     gap.severity === 'medium' ? 'bg-warning/10 text-warning' :
-                    'bg-brand-500/10 text-brand-400'}`}>
+                      'bg-brand-500/10 text-brand-400'}`}>
                   {gap.severity}
                 </span>
                 <p className="text-gray-300 text-sm">{gap.gap}</p>

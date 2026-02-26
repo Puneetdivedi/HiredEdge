@@ -34,6 +34,17 @@ export async function rewriteBullets(bullets, jdText) {
 }
 
 /**
+ * Generate an ATS friendly resume
+ */
+export async function generateResume(resumeText, jdText) {
+  const { data } = await api.post('/analyze/generate-resume', {
+    resume_text: resumeText,
+    jd_text: jdText,
+  })
+  return data
+}
+
+/**
  * History CRUD
  */
 export async function getHistory(userId = null) {

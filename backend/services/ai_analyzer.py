@@ -9,6 +9,8 @@ from utils.prompts import (
     ANALYSIS_USER_PROMPT,
     REWRITE_SYSTEM_PROMPT,
     REWRITE_USER_PROMPT,
+    RESUME_GEN_SYSTEM_PROMPT,
+    RESUME_GEN_USER_PROMPT,
 )
 from dotenv import load_dotenv
 
@@ -110,6 +112,49 @@ async def rewrite_bullets(bullets: list[str], jd_text: str) -> dict:
             pass
 
     return {"rewritten": [{"original": b, "rewritten": b + " (Mock Improved)", "improvement": "Added mock metric."} for b in bullets]}
+
+
+async def generate_ats_resume(resume_text: str, jd_text: str) -> str:
+    """Generate a 1-page ATS-friendly resume based on JD."""
+    prompt = RESUME_GEN_USER_PROMPT.format(
+        resume_text=resume_text[:6000],
+        jd_text=jd_text[:3000]
+    )
+
+    client = get_openai_client()
+    if client:
+        try:
+            response = await client.chat.completions.create(
+                model="gpt-4o",
+                messages=[
+                    {"role": "system", "content": RESUME_GEN_SYSTEM_PROMPT},
+                    {"role": "user", "content": prompt},
+                ],
+                temperature=0.5,
+            )
+            return response.choices[0].message.content.strip()
+        except:
+            pass
+
+    # Fallback to Gemini
+    if configure_gemini():
+        try:
+            model = genai.GenerativeModel("gemini-2.5-flash")
+            full_prompt = f"{RESUME_GEN_SYSTEM_PROMPT}\n\n{prompt}"
+            response = await asyncio.to_thread(model.generate_content, full_prompt)
+            # Clean up markdown formatting if the model wrapped it
+            text = response.text.strip()
+            if text.startswith("```markdown"):
+                text = text[len("```markdown"):].strip()
+            if text.startswith("```"):
+                text = text[len("```"):].strip()
+            if text.endswith("```"):
+                text = text[:-3].strip()
+            return text
+        except Exception as e:
+            print(f"DEBUG: Gemini Error in resume gen: {e}")
+
+    return "# Mock Generated Resume\n\n*This is a mock because no API keys were found.*\n\n## Professional Summary\nExperienced professional..."
 
 
 def get_mock_analysis():

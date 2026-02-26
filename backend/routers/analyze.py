@@ -1,7 +1,7 @@
 from fastapi import APIRouter, UploadFile, File, Form, HTTPException
 from pydantic import BaseModel
 from services.pdf_parser import extract_text_from_pdf, extract_bullet_points
-from services.ai_analyzer import analyze_resume_vs_jd, rewrite_bullets
+from services.ai_analyzer import analyze_resume_vs_jd, rewrite_bullets, generate_ats_resume
 
 router = APIRouter()
 
@@ -21,6 +21,10 @@ class AnalysisResponse(BaseModel):
 
 class RewriteRequest(BaseModel):
     bullets: list[str]
+    jd_text: str
+
+class GenerateResumeRequest(BaseModel):
+    resume_text: str
     jd_text: str
 
 
@@ -62,3 +66,13 @@ async def rewrite(request: RewriteRequest):
     
     result = await rewrite_bullets(request.bullets, request.jd_text)
     return result
+
+
+@router.post("/generate-resume")
+async def generate_resume_endpoint(request: GenerateResumeRequest):
+    """Generate an ATS-friendly resume."""
+    if not request.resume_text or not request.jd_text:
+        raise HTTPException(status_code=400, detail="Missing resume text or JD text.")
+    
+    result = await generate_ats_resume(request.resume_text, request.jd_text)
+    return {"generated_resume": result}
