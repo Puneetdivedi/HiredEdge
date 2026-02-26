@@ -45,7 +45,7 @@ export default function LandingPage() {
             AI-Powered Career Intelligence
           </div>
 
-          <h1 className="font-display font-bold text-6xl md:text-7xl tracking-tight mb-6 leading-none">
+          <h1 className="font-display font-bold text-4xl md:text-6xl lg:text-7xl tracking-tight mb-6 leading-none">
             Know your edge
             <br />
             <span className="text-accent">before you apply.</span>
@@ -57,11 +57,11 @@ export default function LandingPage() {
             rewrites your bullets, and builds your roadmap to getting hired.
           </p>
 
-          <div className="flex items-center justify-center gap-4">
-            <Link to="/analyze" className="btn-primary text-base px-8 py-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link to="/analyze" className="btn-primary w-full sm:w-auto text-base px-8 py-4">
               Analyze My Resume →
             </Link>
-            <a href="#how-it-works" className="btn-secondary text-base">
+            <a href="#how-it-works" className="btn-secondary w-full sm:w-auto text-base py-4">
               See How It Works
             </a>
           </div>
@@ -69,7 +69,7 @@ export default function LandingPage() {
 
         {/* Stats */}
         <motion.div
-          className="flex items-center justify-center gap-12 mt-16 pt-12 border-t border-white/5"
+          className="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-12 mt-16 pt-12 border-t border-white/5"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
@@ -90,9 +90,8 @@ export default function LandingPage() {
           <p className="text-gray-400">Three steps. Thirty seconds. Real results.</p>
         </div>
 
-        <div className="grid grid-cols-3 gap-6 relative">
-          {/* Connector line */}
-          <div className="absolute top-8 left-1/6 right-1/6 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+          <div className="hidden md:block absolute top-8 left-1/6 right-1/6 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
 
           {[
             { step: '01', title: 'Upload Resume', desc: 'Drop your PDF resume. We extract and parse it instantly.' },
@@ -122,7 +121,7 @@ export default function LandingPage() {
           <p className="text-gray-400">Not just keywords — real, actionable intelligence.</p>
         </div>
 
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {features.map((f, i) => (
             <motion.div
               key={f.title}
@@ -164,6 +163,24 @@ export default function LandingPage() {
           </Link>
         </motion.div>
       </section>
+
+      {/* Footer Branding */}
+      <footer className="py-10 text-center border-t border-white/5 mt-10">
+        <p className="text-gray-400 text-sm">
+          Developed with precision by <span className="font-bold text-white">Puneet Divedi</span>
+        </p>
+        <a
+          href="https://www.linkedin.com/in/puneetdivedi/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 text-accent hover:text-white transition-colors text-sm mt-3 bg-accent/10 px-4 py-2 rounded-full font-medium"
+        >
+          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+          </svg>
+          Connect on LinkedIn
+        </a>
+      </footer>
     </div>
   )
 }

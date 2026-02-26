@@ -75,7 +75,7 @@ export default function AnalyzePage() {
             <h2 className="font-display font-semibold text-lg">Job Details <span className="text-gray-500 text-sm font-body font-normal">(optional)</span></h2>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="text-xs text-gray-400 font-medium mb-2 block">Job Title</label>
               <input

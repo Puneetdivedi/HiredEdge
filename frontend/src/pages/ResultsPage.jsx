@@ -101,7 +101,7 @@ export default function ResultsPage() {
             <p className="text-gray-400">{result.company}</p>
           )}
         </div>
-        <div className="flex gap-3">
+        <div className="flex flex-col sm:flex-row gap-3">
           <button
             onClick={handleSave}
             disabled={saved}
@@ -126,7 +126,7 @@ export default function ResultsPage() {
       </motion.div>
 
       {/* Top row: Score + Radar */}
-      <div className="grid grid-cols-3 gap-6 mb-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
         {/* Score ring */}
         <motion.div
           className="section-card flex flex-col items-center justify-center py-8"
@@ -158,7 +158,7 @@ export default function ResultsPage() {
 
         {/* Radar chart */}
         <motion.div
-          className="section-card col-span-2"
+          className="section-card col-span-1 lg:col-span-2"
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.2 }}
