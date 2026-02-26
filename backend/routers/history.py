@@ -7,11 +7,11 @@ from typing import Optional
 router = APIRouter()
 
 
-def get_supabase() -> Client:
+def get_supabase() -> Optional[Client]:
     url = os.getenv("SUPABASE_URL")
     key = os.getenv("SUPABASE_KEY")
-    if not url or not key:
-        raise HTTPException(status_code=500, detail="Supabase not configured.")
+    if not url or not key or "your-supabase-anon-key" in key:
+        return None
     return create_client(url, key)
 
 
@@ -27,6 +27,8 @@ class SaveAnalysisRequest(BaseModel):
 async def get_history(user_id: Optional[str] = None):
     """Get all saved analyses, optionally filtered by user_id."""
     supabase = get_supabase()
+    if not supabase:
+        return {"analyses": [], "warning": "Database unconfigured."}
     
     query = supabase.table("analyses").select("*").order("created_at", desc=True)
     
@@ -41,6 +43,8 @@ async def get_history(user_id: Optional[str] = None):
 async def save_analysis(request: SaveAnalysisRequest):
     """Save an analysis result for future reference."""
     supabase = get_supabase()
+    if not supabase:
+        return {"success": False, "message": "Database not configured for demo."}
     
     data = {
         "job_title": request.job_title,
@@ -62,6 +66,8 @@ async def save_analysis(request: SaveAnalysisRequest):
 async def delete_analysis(analysis_id: str):
     """Delete a saved analysis."""
     supabase = get_supabase()
-    
+    if not supabase:
+         return {"success": False}
+         
     result = supabase.table("analyses").delete().eq("id", analysis_id).execute()
     return {"success": True}

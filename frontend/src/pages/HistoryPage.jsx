@@ -7,7 +7,7 @@ import toast from 'react-hot-toast'
 function ScoreBadge({ score }) {
   const color = score >= 80 ? 'text-success bg-success/10 border-success/20'
     : score >= 60 ? 'text-warning bg-warning/10 border-warning/20'
-    : 'text-danger bg-danger/10 border-danger/20'
+      : 'text-danger bg-danger/10 border-danger/20'
   return (
     <span className={`font-mono font-bold text-sm px-3 py-1 rounded-lg border ${color}`}>
       {score}%
@@ -22,7 +22,14 @@ export default function HistoryPage() {
 
   useEffect(() => {
     getHistory()
-      .then(setAnalyses)
+      .then((res) => {
+        if (res.warning) {
+          toast.error(res.warning)
+          setAnalyses([])
+        } else {
+          setAnalyses(res)
+        }
+      })
       .catch(() => toast.error('Could not load history. Is Supabase configured?'))
       .finally(() => setLoading(false))
   }, [])
