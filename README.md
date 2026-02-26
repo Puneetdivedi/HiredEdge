@@ -127,6 +127,41 @@ VITE_SUPABASE_ANON_KEY=eyJ...
 
 ---
 
+## 🚀 Free Deployment Guide (Live Demo)
+
+Deploy HiredEdge for 100% free using Render (Backend) and Vercel (Frontend).
+
+### 1. Backend (Render.com)
+
+1. Create a free account on [Render](https://render.com/).
+2. Click **New +** and select **Web Service**.
+3. Connect your GitHub account and select the `HiredEdge` repository.
+4. **Settings:**
+   - **Root Directory:** `backend`
+   - **Environment:** `Python 3`
+   - **Build Command:** `pip install -r requirements.txt`
+   - **Start Command:** `uvicorn main:app --host 0.0.0.0 --port $PORT`
+5. **Environment Variables:**
+   - `OPENAI_API_KEY` = your_openai_key (or `GOOGLE_API_KEY`)
+   - Leave Supabase variables empty if you don't need history for the demo.
+6. Click **Deploy Web Service**. Once live, copy your `.onrender.com` URL.
+
+---
+
+### 2. Frontend (Vercel.com)
+
+1. Create a free account on [Vercel](https://vercel.com).
+2. Click **Add New...** -> **Project**.
+3. Import your `HiredEdge` repository.
+4. **Settings:**
+   - **Framework Preset:** Vite
+   - **Root Directory:** `frontend`
+5. **Environment Variables:**
+   - `VITE_API_URL` = Paste your Render Backend URL here (e.g., `https://hiredge-backend.onrender.com`).
+6. Click **Deploy**. Vercel will give you a live URL for your production-ready frontend.
+
+---
+
 ## 🤝 Contributing
 
 PRs welcome! Please open an issue first for major changes.
