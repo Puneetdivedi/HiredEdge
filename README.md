@@ -146,6 +146,8 @@ Deploy HiredEdge for 100% free using Render (Backend) and Vercel (Frontend).
    - Leave Supabase variables empty if you don't need history for the demo.
 6. Click **Deploy Web Service**. Once live, copy your `.onrender.com` URL.
 
+> ⚠️ **Note on Render's Free Tier:** Render spins down free web services after 15 minutes of inactivity. When a recruiter opens your link for the first time, getting the first AI analysis might take up to 50 seconds while the backend "wakes up". After that, it will be lightning fast.
+
 ---
 
 ### 2. Frontend (Vercel.com)
