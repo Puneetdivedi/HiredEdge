@@ -6,7 +6,7 @@ HiredEdge analyzes your resume against any job description and tells you **exact
 
 ---
 
-## ✨ Features
+## ✨ Key Features
 
 - 📄 **Resume Upload** — PDF parsing + text extraction
 - 🔍 **Gap Analysis** — AI finds missing skills, keywords, and experience
