@@ -159,7 +159,7 @@ export default function LandingPage() {
             Stop guessing. Start knowing exactly where you stand.
           </p>
           <Link to="/analyze" className="btn-primary text-lg px-10 py-4">
-            Analyze My Resume — It's Free →
+            Analyze My Resume — 100% Free →
           </Link>
         </motion.div>
       </section>
