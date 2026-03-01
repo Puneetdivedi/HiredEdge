@@ -38,7 +38,7 @@ export default function Navbar() {
           ))}
 
           <Link to="/analyze" className="btn-primary ml-4 py-2 text-sm">
-            Get Your Edge →
+            Start Free Analysis →
           </Link>
         </div>
       </div>
