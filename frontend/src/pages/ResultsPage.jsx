@@ -110,7 +110,7 @@ export default function ResultsPage() {
             {saved ? '✓ Saved' : '💾 Save'}
           </button>
           <Link to="/analyze" className="btn-primary py-2 text-sm">
-            New Analysis
+            + New Analysis
           </Link>
         </div>
       </motion.div>
