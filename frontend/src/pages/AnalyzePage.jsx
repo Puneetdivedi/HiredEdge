@@ -150,11 +150,12 @@ export default function AnalyzePage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
+          className="mt-4"
         >
           <button
             onClick={handleAnalyze}
             disabled={loading || !resumeFile || jdText.length < 100}
-            className="btn-primary w-full py-4 text-base flex items-center justify-center gap-3"
+            className="btn-primary w-full py-5 text-lg flex items-center justify-center gap-3 active:scale-95 transition-transform shadow-[0_0_30px_rgba(0,212,255,0.2)]"
           >
             {loading ? (
               <>
@@ -169,7 +170,7 @@ export default function AnalyzePage() {
               <>⚡ Get My Edge Analysis</>
             )}
           </button>
-          <p className="text-center text-xs text-gray-600 mt-3">
+          <p className="text-center text-xs text-gray-500 mt-4 tracking-wide uppercase font-semibold">
             Takes ~20–30 seconds · Your data is never stored or shared
           </p>
         </motion.div>
