@@ -74,7 +74,7 @@ async def analyze_resume_vs_jd(resume_text: str, jd_text: str) -> dict:
     if configure_gemini():
         try:
             print("DEBUG: Attempting Gemini analysis...")
-            model = genai.GenerativeModel("gemini-2.5-flash")
+            model = genai.GenerativeModel("gemini-1.5-flash")
             full_prompt = f"{ANALYSIS_SYSTEM_PROMPT}\n\n{prompt}"
             response = await asyncio.to_thread(model.generate_content, full_prompt)
             # Find JSON in response
@@ -139,7 +139,7 @@ async def generate_ats_resume(resume_text: str, jd_text: str) -> str:
     # Fallback to Gemini
     if configure_gemini():
         try:
-            model = genai.GenerativeModel("gemini-2.5-flash")
+            model = genai.GenerativeModel("gemini-1.5-flash")
             full_prompt = f"{RESUME_GEN_SYSTEM_PROMPT}\n\n{prompt}"
             response = await asyncio.to_thread(model.generate_content, full_prompt)
             # Clean up markdown formatting if the model wrapped it
