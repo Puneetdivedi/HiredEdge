@@ -18,5 +18,7 @@ CREATE INDEX idx_analyses_created_at ON analyses(created_at DESC);
 -- Enable Row Level Security (RLS)
 ALTER TABLE analyses ENABLE ROW LEVEL SECURITY;
 
--- Allow all reads/writes for now (tighten with auth later)
-CREATE POLICY "Allow all" ON analyses FOR ALL USING (true);
+-- Allow all reads/writes for local development/demo (tighten with auth for production!)
+CREATE POLICY "Allow all" ON analyses FOR ALL
+USING (true)
+WITH CHECK (true);
