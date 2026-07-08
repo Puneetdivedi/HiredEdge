@@ -2,6 +2,8 @@
 
 > AI-powered Resume ↔ Job Description Gap Analyzer
 
+🔗 **Live Demo:** https://hired-edge.vercel.app
+
 HiredEdge analyzes your resume against any job description and tells you **exactly** what's missing, rewrites your bullets to match, and gives you a personalized roadmap to land the role.
 
 ---
